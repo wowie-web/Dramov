@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dramov | Hero Video Slider</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700;900&display=swap');
+
+body {
+    background:#060d17;
+    color:white;
+    font-family:'Inter',sans-serif;
+    margin:0;
+}
+
+.bebas { font-family:'Bebas Neue',sans-serif; }
+.red { color:#e50914; }
+.white { color:white; }
+
+/* Header */
+header {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    padding:0.8rem 2rem;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+}
+
+.logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #e50914;
+    letter-spacing: 2px;
+    font-size: 1.8rem;
+}
+
+header nav {
+    margin-left:auto;
+}
+
+header nav a {
+    margin-left:1.5rem;
+    color:white;
+    font-weight:600;
+    font-size:0.9rem;
+    transition: color 0.3s;
+    text-decoration:none;
+}
+header nav a:hover { color:#e50914; }
+
+/* Hero Slider */
+.hero-container {
+    position:relative;
+    background:black;
+    border-bottom:4px solid #e50914;
+    overflow:hidden;
+    margin-top:72px;
+}
+
+.hero-slide {
+    display:none;
+    position:relative;
+    transition: transform 1s ease, opacity 1s ease;
+}
+
+.hero-slide.active {
+    display:block;
+    aspect-ratio:2/1;
+    animation: zoomIn 1s ease;
+}
+
+@keyframes zoomIn {
+    0% { transform: scale(1.05); opacity:0; }
+    100% { transform: scale(1); opacity:1; }
+}
+
+.hero-video {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.overlay {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to right,rgba(0,0,0,.85),rgba(0,0,0,.4),transparent);
+    z-index:5;
+}
+
+/* Hero Content */
+.hero-content {
+    position:absolute;
+    bottom:6rem;
+    left:2rem;
+    max-width:40rem;
+    z-index:10;
+    transition: opacity 0.7s ease;
+}
+
+.hero-content.hidden { opacity:0; }
+
+.hero-content h2 {
+    line-height:1.2;
+    font-size:2rem;
+}
+
+.hero-content p { font-size:0.9rem; }
+
+/* Hero Play Button */
+.play-btn {
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    transition: all 0.5s ease;
+    z-index:15;
+    position:absolute;
+    bottom:2rem;
+    left:2rem;
+    background: transparent;
+    padding:0.4rem 0.8rem;
+    border: 1px solid #e50914;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+    color: #e50914;
+}
+
+.play-btn:hover {
+    background: rgba(233, 9, 20, 0.2);
+}
+
+/* Dots */
+.dot {
+    width:6px;
+    height:6px;
+    background:rgba(255,255,255,.3);
+    border-radius:9999px;
+    transition:.3s;
+}
+.dot.active { width:30px; background:#e50914; }
+
+/* Responsive */
+@media (max-width:768px){
+    .hero-content {
+        bottom:4.5rem;
+        left:1rem;
+        max-width:90%;
+    }
+    .hero-content h2 { font-size:1.4rem; }
+    .hero-content p { font-size:0.75rem; }
+    .play-btn { bottom:0.8rem; left:1rem; padding:0.3rem 0.6rem; font-size:0.75rem; }
+    header nav a { font-size:0.8rem; margin-left:0.7rem; }
+    .logo-text { font-size:1.6rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Fixed Header -->
+<header>
+    <div class="logo-text bebas">Dramov</div>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Movies</a>
+        <a href="#">Series</a>
+        <a href="#">My List</a>
+    </nav>
+</header>
+
+<!-- Hero Slider -->
+<section class="hero-container">
+<div id="slides">
+
+<!-- 1 Stranger Things -->
+<div class="hero-slide active">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/stranger things.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Stranger Things 5 _ Official Trailer _ Netflix.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Stranger Things</span> <span class="white">Season 5</span></h2>
+        <p>The Hawkins kids face terrifying new threats and uncover dark secrets in this suspense-filled season.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 2 Avatar -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/avatar fire & ash.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Avatar_ Fire and Ash _ Official Trailer.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Avatar: Fire and Ash</span></h2>
+        <p>Jake Sully and Neytiri lead the Na’vi against a new threat on Pandora. Stunning visuals and epic storytelling made it a global blockbuster.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 3 Wake Up Dead Man -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/wake up deadman.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Wake Up Dead Man_ A Knives Out Mystery _ Official Trailer _ Netflix.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Wake Up Dead Man:</span> <span class="white">A Knives Out Mystery</span></h2>
+        <p>Detectives unravel a mysterious death with clever twists and humor in this suspenseful whodunit.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 4 Zootopia 2 -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/zootopia 2.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Zootopia 2 _ Trailer.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Zootopia 2</span></h2>
+        <p>Judy and Nick face new challenges in Zootopia, blending humor, mystery, and heartwarming moments.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 5 The Housemaid -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/the housemaid.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/The Housemaid (2025) Official Trailer – Sydney Sweeney, Amanda Seyfried, Brandon Sklenar.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">The Housemaid</span></h2>
+        <p>A housemaid’s dark secrets upend the lives of those around her in this gripping psychological thriller.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 6 Tron: Ares -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/tron ares.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Tron_ Ares _ Official Trailer.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Tron:</span> <span class="white">Ares</span></h2>
+        <p>Heroes fight in a digital world, combining futuristic visuals with action-packed sequences.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 7 Fallout Season 2 -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/fallout 2.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Fallout Season Two Official Trailer _ Prime Video.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Fallout</span> <span class="white">Season 2</span></h2>
+        <p>Survivors navigate a post-apocalyptic world filled with danger, moral dilemmas, and thrilling adventures.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 8 Pluribus -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/pluribus.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Pluribus _ Official Trailer.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Pluribus</span></h2>
+        <p>Humans and AI struggle in an interstellar drama, as secrets and mysteries unfold across the galaxy.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 9 IT: Welcome to Derry -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/welcome to derry.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/IT_ Welcome to Derry _ Official Trailer _ HBO Max.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">IT:</span> <span class="white">Welcome to Derry</span></h2>
+        <p>Pennywise the Clown terrorizes the town of Derry, terrifying residents with suspenseful twists and horror.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+<!-- 10 Run Away -->
+<div class="hero-slide">
+    <img class="absolute inset-0 w-full h-full object-cover" src="background images-slide/runaway.jpeg">
+    <video class="hero-video absolute inset-0 hidden" src="trailers/Run Away _ Official Trailer _ Netflix.mp4"></video>
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h2 class="bebas"><span class="red">Run Away</span></h2>
+        <p>A desperate father searching for his runaway daughter gets caught up in a murder case and stumbles upon secrets that could destroy his family for good.</p>
+    </div>
+    <button onclick="togglePlay(this)" class="play-btn"><i class="fa-solid fa-play"></i> Play</button>
+</div>
+
+</div>
+
+<!-- Controls -->
+<button onclick="move(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center">
+    <i class="fa-solid fa-chevron-left"></i>
+</button>
+
+<button onclick="move(1)" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 w-10 h-10 rounded-full flex items-center justify-center">
+    <i class="fa-solid fa-chevron-right"></i>
+</button>
+
+<div id="dots" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20"></div>
+</section>
+
+<script>
+const slides = document.querySelectorAll(".hero-slide");
+const dotsWrap = document.getElementById("dots");
+let index = 0;
+
+// Create dots
+slides.forEach((_, i) => {
+    const d = document.createElement("span");
+    d.className = "dot" + (i===0?" active":"");
+    d.onclick = () => showSlide(i);
+    dotsWrap.appendChild(d);
+});
+const dots = document.querySelectorAll(".dot");
+
+// Reset slide
+function resetSlide(i){
+    const v = slides[i].querySelector("video");
+    const img = slides[i].querySelector("img");
+    const content = slides[i].querySelector(".hero-content");
+    const btn = slides[i].querySelector("button");
+    v.pause();
+    v.currentTime=0;
+    v.classList.add("hidden");
+    img.classList.remove("hidden");
+    content.classList.remove("hidden");
+    btn.innerHTML='<i class="fa-solid fa-play"></i> Play';
+    btn.classList.remove("playing");
+}
+
+// Show slide
+function showSlide(n){
+    resetSlide(index);
+    slides[index].classList.remove("active");
+    dots[index].classList.remove("active");
+
+    index = (n + slides.length)%slides.length;
+
+    slides[index].classList.add("active");
+    dots[index].classList.add("active");
+}
+
+// Move arrows
+function move(step){
+    showSlide(index+step);
+}
+
+// Play/Pause video
+function togglePlay(btn){
+    const slide = btn.closest(".hero-slide");
+    const video = slide.querySelector("video");
+    const img = slide.querySelector("img");
+    const content = slide.querySelector(".hero-content");
+
+    if (video.paused) {
+        // ▶️ PLAY (resume from paused time)
+        img.classList.add("hidden");
+        content.classList.add("hidden");
+
+        video.classList.remove("hidden");
+        video.muted = false;
+        video.play();
+
+        btn.innerHTML = '<i class="fa-solid fa-pause"></i> Pause';
+        btn.classList.add("playing");
+    } else {
+        // ⏸ PAUSE (keep current frame, show image & text)
+        video.pause();
+
+        // show poster image + text again
+        img.classList.remove("hidden");
+        content.classList.remove("hidden");
+
+        // hide video layer (time is preserved)
+        video.classList.add("hidden");
+
+        btn.innerHTML = '<i class="fa-solid fa-play"></i> Play';
+        btn.classList.remove("playing");
+    }
+}
+
+</script>
+
+</body>
+</html>
